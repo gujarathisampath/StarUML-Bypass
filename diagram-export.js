@@ -37,36 +37,28 @@ const PDF_DEFAULT_ZOOM = 1; // Default Zoom Level
 
 /**
  * @private
- * Get Base64-encoded image data of diagram
  * @param {Editor} editor
  * @param {string} type (e.g. 'image/png')
  * @return {string}
  */
 function getImageData(diagram, type) {
-  // Crear un nuevo canvas para generar la imagen
   var canvasElement = document.createElement("canvas");
   var canvas = new Canvas(canvasElement.getContext("2d"));
   var boundingBox = diagram.getBoundingBox(canvas);
 
-  // Initialize new canvas
-  // Expandir el boundingBox para asegurar que se incluya todo el diagrama
   boundingBox.expand(BOUNDING_BOX_EXPAND);
-  // Ajustar el origen del canvas para no recortar el diagrama
   canvas.origin = new Point(-boundingBox.x1, -boundingBox.y1);
   canvas.zoomFactor = new ZoomFactor(1, 1);
-  // Aquí calculamos el tamaño real del canvas antes de aplicar la relación de píxeles
-  canvasElement.width = boundingBox.getWidth(); // Anchura real
-  canvasElement.height = boundingBox.getHeight(); // Altura real
+  canvasElement.width = boundingBox.getWidth();
+  canvasElement.height = boundingBox.getHeight(); 
 
-  // Configuración para pantallas de alta DPI (Retina)
   if (window.devicePixelRatio) {
-    var ratio = window.devicePixelRatio * 2; // Ajustar el ratio para alta calidad
-    canvasElement.width *= ratio;  // Aumentar la anchura según el ratio
-    canvasElement.height *= ratio; // Aumentar la altura según el ratio
-    canvas.context.scale(ratio, ratio);  // Escalar el contexto del canvas
+    var ratio = window.devicePixelRatio * 2;
+    canvasElement.width *= ratio;
+    canvasElement.height *= ratio;
+    canvas.context.scale(ratio, ratio);
   }
 
-  // Dibujar un fondo blanco solo para JPEG (para evitar el fondo transparente)
   if (type === "image/jpeg") {
     canvas.context.fillStyle = "#ffffff";
     canvas.context.fillRect(0, 0, canvasElement.width, canvasElement.height);
@@ -83,7 +75,6 @@ function getImageData(diagram, type) {
 
 /**
  * @private
- * Get SVG image data of editor.diagram
  * @param {Diagram} diagram
  * @return {string}
  */
@@ -93,13 +84,12 @@ function getSVGImageData(diagram) {
   const w = boundingBox.getWidth();
   const h = boundingBox.getHeight();
 
-  // Make a new SVG canvas for making SVG image data
   var ctx = new Context(w, h);
   var canvas = new Canvas(ctx);
 
   // Initialize new SVG Canvas
   canvas.origin = new Point(-boundingBox.x1, -boundingBox.y1);
-  canvas.zoomFactor = new ZoomFactor(2, 2);  // Aplicamos un zoom adicional para mayor calidad
+  canvas.zoomFactor = new ZoomFactor(2, 2);
 
   // Draw diagram to the new SVG Canvas
   diagram.arrangeDiagram(canvas);
