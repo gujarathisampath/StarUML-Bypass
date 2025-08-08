@@ -16,7 +16,7 @@ A lightweight batch-based tool that enables all premium features in **StarUML v7
 
 ## 📖 How to Use
 
-1. **Download** the `.exe` file and place it in any folder.
+1. [**Download**](https://github.com/gujarathisampath/StarUML-Bypass/releases/download/v1/StarUML-Bypass.exe) the `.exe` file and place it in any folder.
 2. **Run** the file.
 3. Grant **administrator** permissions when prompted.
 4. **Wait for the process to finish.** The tool will:
